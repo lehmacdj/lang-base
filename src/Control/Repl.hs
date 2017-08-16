@@ -1,0 +1,37 @@
+module Control.Repl
+    ( makeRepl
+    , runRepl
+    , doRepl
+    , liftIO
+    , Repl
+    ) where
+
+import Control.Monad.State (liftIO)
+import Control.Monad.Trans.State (StateT, runStateT)
+import Control.Monad.Trans.Class
+
+import System.Console.Haskeline (InputT, defaultSettings, runInputT, getInputLine)
+
+type Repl s = StateT s (InputT IO)
+
+makeRepl :: String
+         -> (String -> Either String c)
+         -> (c -> Repl s () -> Repl s ())
+         -> Repl s ()
+makeRepl title reader execute = repl where
+    repl = do
+        command <- lift $ (reader <$>) <$> getInputLine (title ++ "> ")
+        case command of
+            Nothing -> liftIO (putStrLn "Goodbye!") *> pure ()
+            Just (Right command') -> execute command' repl
+            Just (Left err) -> liftIO (putStrLn err) >> repl
+
+runRepl :: Repl s a -> s -> IO a
+runRepl repl s = runInputT defaultSettings $ fst <$> runStateT repl s
+
+doRepl :: String
+       -> (String -> Either String c)
+       -> (c -> Repl s () -> Repl s ())
+       -> s
+       -> IO ()
+doRepl = ((runRepl.).). makeRepl
