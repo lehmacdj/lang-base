@@ -1,0 +1,24 @@
+name:                lang-base-examples
+version:             0.1.0.0
+synopsis: Examples associated with the lang-base library
+-- description:
+homepage:            https://github.com/lehmacdj/lang-base#readme
+license:             BSD3
+license-file:        LICENSE
+author:              Devin Lehmacher
+maintainer:          lehmacdj@gmail.com
+copyright:           Copyright: (c) 2017 Devin Lehmacher
+category:            Miscellaneous
+build-type:          Simple
+cabal-version:       >=1.10
+
+executable lang-base-stlc
+  main-is: STLC.hs
+  build-depends:
+    base,
+    recursion-schemes,
+    lang-base
+
+source-repository head
+  type:     git
+  location: https://github.com/lehmacdj/lang-base

@@ -17,13 +17,16 @@ library
   hs-source-dirs:      src
   exposed-modules:     Lang.Common.Variable,
                        Lang.Common.Unique,
+                       Lang.Common.AbstractInterpretation,
+                       Lang.Common.Evaluate,
+                       Lang.Common.Decorated,
                        Lang.Common,
                        Control.Repl,
                        Control.Repl.Bindings
   build-depends:       base >= 4.7 && < 5,
                        mtl, transformers,
                        haskeline,
-                       parsec
+                       parsec, recursion-schemes
   default-language:    Haskell2010
 
 test-suite lang-base-test
