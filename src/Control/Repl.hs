@@ -14,6 +14,8 @@ import System.Console.Haskeline (InputT, defaultSettings, runInputT, getInputLin
 
 type Repl s = StateT s (InputT IO)
 
+-- the parameter repl is the continuation that should be executed to continue,
+-- ordinary execution of the repl
 makeRepl :: String
          -> (String -> Either String c)
          -> (c -> Repl s () -> Repl s ())
